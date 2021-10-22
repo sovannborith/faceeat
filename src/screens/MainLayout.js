@@ -5,7 +5,7 @@ import Animated from "react-native-reanimated";
 
 import { COLORS } from "../constants";
 
-const MainLayout = ({ drawerAnimationStyle }) => {
+const MainLayout = () => {
   return (
     <Animated.View
       style={{
@@ -13,7 +13,6 @@ const MainLayout = ({ drawerAnimationStyle }) => {
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: COLORS.white,
-        ...drawerAnimationStyle,
       }}
     >
       <Text>Hello</Text>

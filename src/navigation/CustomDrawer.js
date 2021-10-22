@@ -1,10 +1,13 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
+import { StatusBar } from "expo-status-bar";
 
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
+  useDrawerProgress,
+  useDrawerStatus,
 } from "@react-navigation/drawer";
 
 import { MainLayout } from "../screens";
@@ -18,6 +21,37 @@ import {
 } from "../constants";
 import CustomDrawerItem from "../components/CustomDrawerItem";
 const Drawer = createDrawerNavigator();
+
+const DrawerScreenContainer = ({ children }) => {
+  const isDrawerOpen = useDrawerStatus();
+  const progress = useDrawerProgress();
+  const scale = Animated.interpolateNode(progress, {
+    inputRange: [0, 1],
+    outputRange: [1, 0.8],
+  });
+  const borderRadius = Animated.interpolateNode(progress, {
+    inputRange: [0, 1],
+    outputRange: [0, SIZES.radius * 2],
+  });
+
+  return (
+    <Animated.View
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.white,
+        borderRadius,
+        transform: [{ scale }],
+        overflow: "hidden",
+      }}
+    >
+      <StatusBar
+        backgroundColor={isDrawerOpen == "open" ? COLORS.primary : COLORS.white}
+        barStyle="dark-content"
+      />
+      {children}
+    </Animated.View>
+  );
+};
 
 const CustomDrawerContent = ({ navigation }) => {
   return (
@@ -140,20 +174,22 @@ const CustomDrawerContent = ({ navigation }) => {
     </DrawerContentScrollView>
   );
 };
-const CustomDrawer = () => {
-  const [progress, setProgress] = React.useState(new Animated.Value(0));
 
-  const scale = Animated.interpolateNode(progress, {
+const CustomDrawer = () => {
+  /* const progress = useDrawerProgress();
+  const [prog, setProg] = React.useState(new Animated.Value(0));
+
+  const scale = Animated.interpolateNode(prog, {
     inputRange: [0, 1],
     outputRange: [1, 0.8],
   });
 
-  const borderRadius = Animated.interpolateNode(progress, {
+  const borderRadius = Animated.interpolateNode(prog, {
     inputRange: [0, 1],
     outputRange: [0, 26],
   });
 
-  const animatedStyle = { borderRadius: borderRadius, transform: [{ scale }] };
+  const animatedStyle = { borderRadius: borderRadius, transform: [{ scale }] }; */
 
   return (
     <View
@@ -169,7 +205,7 @@ const CustomDrawer = () => {
           overlayColor: "transparent",
           drawerStyle: {
             flex: 1,
-            width: "65%",
+            width: "70%",
             paddingRight: 20,
             backgroundColor: "transparent",
           },
@@ -178,17 +214,23 @@ const CustomDrawer = () => {
           },
         }}
         drawerContent={(props) => {
-          setTimeout(() => {
-            setProgress(props.progress);
-          }, 0);
+          /*<CustomDrawerContent {...props} />;
+           setTimeout(() => {
+            setProg(progress);
+          }, 0); */
 
-          return <CustomDrawerContent navigation={props.navigation} />;
+          return (
+            <CustomDrawerContent {...props} navigation={props.navigation} />
+          );
         }}
         initialRoute="MainLayout"
       >
         <Drawer.Screen name="MainLayout">
           {(props) => (
-            <MainLayout {...props} drawerAnimationStyle={animatedStyle} />
+            <DrawerScreenContainer>
+              <MainLayout {...props} />
+              {/* drawerAnimationStyle={animatedStyle} /> */}
+            </DrawerScreenContainer>
           )}
         </Drawer.Screen>
       </Drawer.Navigator>
