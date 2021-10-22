@@ -2,7 +2,7 @@ import icons from "./icons";
 import images from "./images";
 
 const myProfile = {
-  name: "ByProgrammers",
+  name: "Sovannborith Yun",
   profile_image: images.profile,
   address: "No. 88, Jln Padungan, Kuching",
 };

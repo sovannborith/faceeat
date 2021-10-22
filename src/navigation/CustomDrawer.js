@@ -1,13 +1,11 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
-import { StatusBar } from "expo-status-bar";
 
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   useDrawerProgress,
-  useDrawerStatus,
 } from "@react-navigation/drawer";
 
 import { MainLayout } from "../screens";
@@ -23,7 +21,6 @@ import CustomDrawerItem from "../components/CustomDrawerItem";
 const Drawer = createDrawerNavigator();
 
 const DrawerScreenContainer = ({ children }) => {
-  const isDrawerOpen = useDrawerStatus();
   const progress = useDrawerProgress();
   const scale = Animated.interpolateNode(progress, {
     inputRange: [0, 1],
@@ -44,10 +41,6 @@ const DrawerScreenContainer = ({ children }) => {
         overflow: "hidden",
       }}
     >
-      <StatusBar
-        backgroundColor={isDrawerOpen == "open" ? COLORS.primary : COLORS.white}
-        barStyle="dark-content"
-      />
       {children}
     </Animated.View>
   );
@@ -89,25 +82,33 @@ const CustomDrawerContent = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity
+        <View
           style={{
-            flexDirection: "row",
-            marginTop: SIZES.radius,
+            flexDirection: "vertical",
             alignItems: "center",
+            marginLeft: SIZES.radius * 5,
           }}
-          onPress={() => console.log("Profile")}
         >
-          <Image
-            source={dummyData.myProfile?.profile_image}
+          <TouchableOpacity
             style={{
-              width: 50,
-              height: 50,
-              borderRadius: 25,
+              flexDirection: "row",
+              marginTop: SIZES.radius,
+              alignItems: "center",
             }}
-          />
+            onPress={() => console.log("Profile")}
+          >
+            <Image
+              source={dummyData.myProfile?.profile_image}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 25,
+              }}
+            />
+          </TouchableOpacity>
           <View
             style={{
-              marginLeft: SIZES.radius,
+              flexDirection: "column",
             }}
           >
             <Text
@@ -124,8 +125,15 @@ const CustomDrawerContent = ({ navigation }) => {
               View your profile
             </Text>
           </View>
-        </TouchableOpacity>
-
+        </View>
+        <View
+          style={{
+            height: 1,
+            marginVertical: SIZES.radius,
+            marginLeft: SIZES.radius,
+            backgroundColor: COLORS.lightGray1,
+          }}
+        ></View>
         <View
           style={{
             flex: 1,
@@ -176,21 +184,6 @@ const CustomDrawerContent = ({ navigation }) => {
 };
 
 const CustomDrawer = () => {
-  /* const progress = useDrawerProgress();
-  const [prog, setProg] = React.useState(new Animated.Value(0));
-
-  const scale = Animated.interpolateNode(prog, {
-    inputRange: [0, 1],
-    outputRange: [1, 0.8],
-  });
-
-  const borderRadius = Animated.interpolateNode(prog, {
-    inputRange: [0, 1],
-    outputRange: [0, 26],
-  });
-
-  const animatedStyle = { borderRadius: borderRadius, transform: [{ scale }] }; */
-
   return (
     <View
       style={{
@@ -205,7 +198,7 @@ const CustomDrawer = () => {
           overlayColor: "transparent",
           drawerStyle: {
             flex: 1,
-            width: "70%",
+            width: "65%",
             paddingRight: 20,
             backgroundColor: "transparent",
           },
@@ -214,11 +207,6 @@ const CustomDrawer = () => {
           },
         }}
         drawerContent={(props) => {
-          /*<CustomDrawerContent {...props} />;
-           setTimeout(() => {
-            setProg(progress);
-          }, 0); */
-
           return (
             <CustomDrawerContent {...props} navigation={props.navigation} />
           );
@@ -229,7 +217,6 @@ const CustomDrawer = () => {
           {(props) => (
             <DrawerScreenContainer>
               <MainLayout {...props} />
-              {/* drawerAnimationStyle={animatedStyle} /> */}
             </DrawerScreenContainer>
           )}
         </Drawer.Screen>

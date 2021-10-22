@@ -7,12 +7,11 @@ const CustomDrawerItem = ({ label, icon }) => {
     <TouchableOpacity
       style={{
         flexDirection: "row",
-        height: 40,
+        height: 30,
         marginBottom: SIZES.base,
         alignItems: "center",
         paddingLeft: SIZES.radius,
         borderRadius: SIZES.base,
-        //BackgroundColor: Colors.
       }}
       //onPress=
     >
