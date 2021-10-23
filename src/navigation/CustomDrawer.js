@@ -77,8 +77,8 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
             <Image
               source={icons.cross}
               style={{
-                height: 30,
-                width: 30,
+                height: 25,
+                width: 25,
                 tintColor: COLORS.white,
               }}
             />
