@@ -2,7 +2,7 @@ import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { COLORS, FONTS, SIZES } from "../constants";
 
-const CustomDrawerItem = ({ label, icon }) => {
+const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
   return (
     <TouchableOpacity
       style={{
@@ -12,8 +12,9 @@ const CustomDrawerItem = ({ label, icon }) => {
         alignItems: "center",
         paddingLeft: SIZES.radius,
         borderRadius: SIZES.base,
+        backgroundColor: isFocused ? COLORS.transparentBlack1 : null,
       }}
-      //onPress=
+      onPress={onPress}
     >
       <Image
         source={icon}

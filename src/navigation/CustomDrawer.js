@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, Image } from "react-native";
 import Animated from "react-native-reanimated";
 
 import {
@@ -18,6 +18,9 @@ import {
   dummyData,
 } from "../constants";
 import CustomDrawerItem from "../components/CustomDrawerItem";
+
+import { connect } from "react-redux";
+import { setSelectedTab } from "../stores/tab/tabActions";
 const Drawer = createDrawerNavigator();
 
 const DrawerScreenContainer = ({ children }) => {
@@ -46,7 +49,7 @@ const DrawerScreenContainer = ({ children }) => {
   );
 };
 
-const CustomDrawerContent = ({ navigation }) => {
+const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
   return (
     <DrawerContentScrollView
       scrollEnabled={true}
@@ -140,18 +143,41 @@ const CustomDrawerContent = ({ navigation }) => {
             marginTop: SIZES.padding,
           }}
         >
-          <CustomDrawerItem label={constants.screens.home} icon={icons.home} />
+          <CustomDrawerItem
+            label={constants.screens.home}
+            icon={icons.home}
+            isFocused={selectedTab == constants.screens.home}
+            onPress={() => {
+              setSelectedTab(constants.screens.home);
+              navigation.navigate("MainLayout");
+            }}
+          />
           <CustomDrawerItem
             label={constants.screens.my_wallet}
             icon={icons.wallet}
+            isFocused={selectedTab == constants.screens.my_wallet}
+            onPress={() => {
+              setSelectedTab(constants.screens.my_wallet);
+              navigation.navigate("MainLayout");
+            }}
           />
           <CustomDrawerItem
             label={constants.screens.notification}
             icon={icons.notification}
+            isFocused={selectedTab == constants.screens.notification}
+            onPress={() => {
+              setSelectedTab(constants.screens.notification);
+              navigation.navigate("MainLayout");
+            }}
           />
           <CustomDrawerItem
             label={constants.screens.favourite}
             icon={icons.favourite}
+            isFocused={selectedTab == constants.screens.favourite}
+            onPress={() => {
+              setSelectedTab(constants.screens.favourite);
+              navigation.navigate("MainLayout");
+            }}
           />
           <View
             style={{
@@ -165,11 +191,48 @@ const CustomDrawerContent = ({ navigation }) => {
           <CustomDrawerItem
             label="Track Your Order Item"
             icon={icons.location}
+            isFocused={selectedTab == constants.screens.favourite}
+            onPress={() => {
+              setSelectedTab(constants.screens.favourite);
+              navigation.navigate("MainLayout");
+            }}
           />
-          <CustomDrawerItem label="Coupons" icon={icons.coupon} />
-          <CustomDrawerItem label="Settings" icon={icons.setting} />
-          <CustomDrawerItem label="Invite a Friend" icon={icons.profile} />
-          <CustomDrawerItem label="Help Center" icon={icons.help} />
+          <CustomDrawerItem
+            label="Coupons"
+            icon={icons.coupon}
+            isFocused={selectedTab == constants.screens.favourite}
+            onPress={() => {
+              setSelectedTab(constants.screens.favourite);
+              navigation.navigate("MainLayout");
+            }}
+          />
+          <CustomDrawerItem
+            label="Settings"
+            icon={icons.setting}
+            isFocused={selectedTab == constants.screens.favourite}
+            onPress={() => {
+              setSelectedTab(constants.screens.favourite);
+              navigation.navigate("MainLayout");
+            }}
+          />
+          <CustomDrawerItem
+            label="Invite a Friend"
+            icon={icons.profile}
+            isFocused={selectedTab == constants.screens.favourite}
+            onPress={() => {
+              setSelectedTab(constants.screens.favourite);
+              navigation.navigate("MainLayout");
+            }}
+          />
+          <CustomDrawerItem
+            label="Help Center"
+            icon={icons.help}
+            isFocused={selectedTab == constants.screens.favourite}
+            onPress={() => {
+              setSelectedTab(constants.screens.favourite);
+              navigation.navigate("MainLayout");
+            }}
+          />
         </View>
         <View
           style={{
@@ -183,7 +246,7 @@ const CustomDrawerContent = ({ navigation }) => {
   );
 };
 
-const CustomDrawer = () => {
+const CustomDrawer = ({ selectedTab, setSelectedTab }) => {
   return (
     <View
       style={{
@@ -208,7 +271,12 @@ const CustomDrawer = () => {
         }}
         drawerContent={(props) => {
           return (
-            <CustomDrawerContent {...props} navigation={props.navigation} />
+            <CustomDrawerContent
+              navigation={props.navigation}
+              selectedTab={selectedTab}
+              setSelectedTab={setSelectedTab}
+              {...props}
+            />
           );
         }}
         initialRoute="MainLayout"
@@ -225,6 +293,18 @@ const CustomDrawer = () => {
   );
 };
 
-export default CustomDrawer;
+//export default CustomDrawer;
 
-const styles = StyleSheet.create({});
+function mapStateToProps(state) {
+  return {
+    selectedTab: state.tabReducer.selectedTab,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    setSelectedTab: (selectedTab) => {
+      return dispatch(setSelectedTab(selectedTab));
+    },
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CustomDrawer);

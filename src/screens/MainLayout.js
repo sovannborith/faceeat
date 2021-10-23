@@ -21,7 +21,7 @@ const MainLayout = () => {
       }}
     >
       <StatusBar style={isDrawerOpen == "open" ? "light" : "dark"} />
-      <Text>Hello</Text>
+      <Text>Main Layout</Text>
     </Animated.View>
   );
 };
