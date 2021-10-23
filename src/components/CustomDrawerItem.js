@@ -7,7 +7,7 @@ const CustomDrawerItem = ({ label, icon, isFocused, onPress }) => {
     <TouchableOpacity
       style={{
         flexDirection: "row",
-        height: 30,
+        height: 40,
         marginBottom: SIZES.base,
         alignItems: "center",
         paddingLeft: SIZES.radius,

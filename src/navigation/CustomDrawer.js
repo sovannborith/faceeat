@@ -148,6 +148,7 @@ const CustomDrawerContent = ({ navigation, selectedTab, setSelectedTab }) => {
             icon={icons.home}
             isFocused={selectedTab == constants.screens.home}
             onPress={() => {
+              console.log(selectedTab);
               setSelectedTab(constants.screens.home);
               navigation.navigate("MainLayout");
             }}
